@@ -1,6 +1,8 @@
     .data
 vector1:
     .word   -1,-2,-3,-4,-5
+res:
+    .word   0
 str:
 .asciz "La suma de los elementos del vector es: %d\n"
     .text
@@ -18,8 +20,9 @@ main:
     j       1b             # Repeat loop
 
 2:
-    la      a0, str
-    mv      a1, a2         # Move sum to a1 for printing
+    sw      a2, res, a0    # Store the sum in res
+    la      a0, str        # Load address of string into a0
+    lw      a1, res        # Load sum from res into a1
     jal     dac_printf     # Call the print function
 
 en:

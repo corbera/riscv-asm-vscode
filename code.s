@@ -6,7 +6,7 @@ str: .asciz "Hello, World!\n"
 .global main
 main:
     la a0, str # Load address of string into a0
-    jal dac_print # Call the print function
+    jal uart_puts # Call the print function
 
     la a0, vector2 # Load address of vector into a0
     lw a1, 0(a0)  # Load first element of vector into a1

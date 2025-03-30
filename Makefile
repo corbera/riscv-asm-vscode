@@ -6,7 +6,8 @@ SRC_DIR = daclib
 BUILD_DIR = build
 
 # Archivos fuente
-DACLIB_SRC = $(SRC_DIR)/daclib.c
+#DACLIB_SRC = $(SRC_DIR)/daclib.c
+DACLIB_SRC = $(SRC_DIR)/daclib.s
 START_SRC = $(SRC_DIR)/start.s
 LD_SCRIPT = $(SRC_DIR)/baremetal.ld
 
@@ -33,7 +34,8 @@ $(BUILD_DIR):
 
 # Compilar los archivos en build/
 $(DACLIB_OBJ): $(DACLIB_SRC) | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -o $@ $<
+#	$(CC) $(CFLAGS) -o $@ $<
+	$(AS) $(ASFLAGS) -o $@ $<
 
 $(START_OBJ): $(START_SRC) | $(BUILD_DIR)
 	$(AS) $(ASFLAGS) -o $@ $<
@@ -44,6 +46,9 @@ $(SRC_OBJ): $(SRC).s | $(BUILD_DIR)
 # Enlazar
 $(ELF): $(DACLIB_OBJ) $(START_OBJ) $(SRC_OBJ) $(LD_SCRIPT)
 	$(LD) $(LDFLAGS) -o $@ $(DACLIB_OBJ) $(START_OBJ) $(SRC_OBJ)
+
+#$(ELF): $(START_OBJ) $(SRC_OBJ) $(LD_SCRIPT)
+#	$(LD) $(LDFLAGS) -o $@ $(START_OBJ) $(SRC_OBJ)
 
 # Ejecutar con QEMU
 run: $(ELF)

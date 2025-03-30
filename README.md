@@ -1,5 +1,5 @@
 # Programar y depurar código ensamblador RISC-V en VSCode
-Configuración de VSCode para poder programar y depurar código ensamblador RISC-V.
+Configuración de VSCode para poder programar y depurar código ensamblador RISC-V (basado en [este vídeo de Chuck's Tech Talk](https://www.youtube.com/watch?v=NbZDowmXzZs))
 
 ## Requisitos
 - VSCode

@@ -1,4 +1,4 @@
-# Simple C runtime startup bootstrap
+# Simple startup bootstrap
 # Primary functions:
 # - Stack allocation and initializing stack pointer
 # - UART initialization

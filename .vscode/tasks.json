@@ -19,10 +19,10 @@
     {
       "label": "Run QEMU",
       "type": "shell",
-      "command": "echo 'QEMU started' && qemu-system-riscv32 -nographic -machine virt -serial mon:stdio -S -s -bios ${workspaceFolder}/build/riscv.elf",
-      "dependsOn": [
-        "Build"
-      ],
+      "command": "make SRC=${fileBasenameNoExtension} && echo 'QEMU started' && qemu-system-riscv32 -nographic -machine virt -serial mon:stdio -S -s -bios ${workspaceFolder}/build/riscv.elf",
+      //"dependsOn": [
+      //  "Build"
+      //],
       "isBackground": true,
       "problemMatcher": [
         {

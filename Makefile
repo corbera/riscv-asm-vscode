@@ -6,8 +6,8 @@ SRC_DIR = daclib
 BUILD_DIR = build
 
 # Archivos fuente
-#DACLIB_SRC = $(SRC_DIR)/daclib.c
-DACLIB_SRC = $(SRC_DIR)/daclib.s
+DACLIB_SRC = $(SRC_DIR)/daclib.c
+#DACLIB_SRC = $(SRC_DIR)/daclib.s
 START_SRC = $(SRC_DIR)/start.s
 LD_SCRIPT = $(SRC_DIR)/baremetal.ld
 
@@ -21,7 +21,7 @@ ELF = $(BUILD_DIR)/riscv.elf
 CC = riscv64-unknown-elf-gcc
 AS = riscv64-unknown-elf-as
 LD = riscv64-unknown-elf-ld
-CFLAGS = -c -g -O0 -ffreestanding -march=rv32i -mabi=ilp32
+CFLAGS = -c -g -O0 -ffreestanding -march=rv32im -mabi=ilp32
 ASFLAGS = -g -march=rv32i -mabi=ilp32
 LDFLAGS = -T $(LD_SCRIPT) -m elf32lriscv
 
@@ -34,8 +34,8 @@ $(BUILD_DIR):
 
 # Compilar los archivos en build/
 $(DACLIB_OBJ): $(DACLIB_SRC) | $(BUILD_DIR)
-#	$(CC) $(CFLAGS) -o $@ $<
-	$(AS) $(ASFLAGS) -o $@ $<
+	$(CC) $(CFLAGS) -o $@ $<
+#	$(AS) $(ASFLAGS) -o $@ $<
 
 $(START_OBJ): $(START_SRC) | $(BUILD_DIR)
 	$(AS) $(ASFLAGS) -o $@ $<
@@ -44,11 +44,8 @@ $(SRC_OBJ): $(SRC).s | $(BUILD_DIR)
 	$(AS) $(ASFLAGS) -o $@ $<
 
 # Enlazar
-$(ELF): $(DACLIB_OBJ) $(START_OBJ) $(SRC_OBJ) $(LD_SCRIPT)
+$(ELF): clean-elf $(DACLIB_OBJ) $(START_OBJ) $(SRC_OBJ) $(LD_SCRIPT)
 	$(LD) $(LDFLAGS) -o $@ $(DACLIB_OBJ) $(START_OBJ) $(SRC_OBJ)
-
-#$(ELF): $(START_OBJ) $(SRC_OBJ) $(LD_SCRIPT)
-#	$(LD) $(LDFLAGS) -o $@ $(START_OBJ) $(SRC_OBJ)
 
 # Ejecutar con QEMU
 run: $(ELF)
@@ -62,3 +59,7 @@ debug: $(ELF)
 # Limpiar
 clean:
 	rm -rf $(BUILD_DIR)
+
+# Eliminar el archivo ELF
+clean-elf:
+	rm -f $(ELF)

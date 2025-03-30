@@ -2,8 +2,7 @@
 vector1:
     .word   -1,-2,-3,-4,-5
 str:
-.asciz "La suma de los elementos del vector es:
-    %d\n"
+.asciz "La suma de los elementos del vector es: %d\n"
     .text
     .global main
 main:

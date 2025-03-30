@@ -21,8 +21,8 @@ ELF = $(BUILD_DIR)/riscv.elf
 CC = riscv64-unknown-elf-gcc
 AS = riscv64-unknown-elf-as
 LD = riscv64-unknown-elf-ld
-CFLAGS = -c -g -O0 -ffreestanding -march=rv32im -mabi=ilp32
-ASFLAGS = -g -march=rv32i -mabi=ilp32
+CFLAGS = -c -g -O0 -ffreestanding -march=rv32imzicsr -mabi=ilp32
+ASFLAGS = -g -march=rv32imzicsr -mabi=ilp32
 LDFLAGS = -T $(LD_SCRIPT) -m elf32lriscv
 
 # Regla por defecto

@@ -85,6 +85,32 @@ void dac_printi(int num)
 }
 
 /**
+ * @brief Escribe un número entero sin signo en la UART
+ * @param num Número entero sin signo a escribir
+ * @details Esta función convierte un número entero sin signo en una cadena de caracteres y lo escribe en la UART.
+ */
+void dac_printu(unsigned int num)
+{
+  char buffer[16]; // Buffer to hold the string representation of the number
+  int i = 0;
+
+  if (num == 0)
+  {
+    uart_putc('0');
+    return;
+  }
+
+  while (num > 0)
+  {
+    buffer[i++] = (num % 10) + '0'; // Convert digit to character
+    num /= 10;                      // Divide by 10 to get next digit
+  }
+
+  while (i > 0)
+    uart_putc(buffer[--i]); // Write characters in reverse order
+}
+
+/**
  * @brief Escribe un número entero en formato hexadecimal en la UART
  * @param num Número entero a escribir
  * @details Esta función convierte un número entero en formato hexadecimal en una cadena de caracteres y lo escribe en la UART.
@@ -152,10 +178,30 @@ void dac_printf(const char *format, ...)
     if (*format == '%')
     {
       format++;
-      if (*format == 'd')
+      if (*format == 'd' || *format == 'i')
       {
         int num = va_arg(args, int);
         dac_printi(num);
+      }
+      else if (*format == 'u')
+      {
+        unsigned int num = va_arg(args, unsigned int);
+        dac_printu(num);
+      }
+      else if (*format == 'c')
+      {
+        char c = (char)va_arg(args, int);
+        uart_putc(c);
+      }
+      else if (*format == 'x' || *format == 'p')
+      {
+        int num = va_arg(args, int);
+        dac_printi_hex(num);
+      }
+      else if (*format == 'b')
+      {
+        int num = va_arg(args, int);
+        dac_printi_bin(num);
       }
       else if (*format == 's')
       {
